@@ -30,15 +30,21 @@ func Send(snapshot *Snapshot) error {
 	fmt.Println("📤 Enviando payload:")
 	fmt.Println(string(payload))
 
-	req, err := http.NewRequest("POST", senderConfig.URL, bytes.NewBuffer(payload))
+	req, err := http.NewRequest("POST", senderConfig.URL, bytes.NewReader(payload))
 	if err != nil {
 		return err
 	}
 	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Content-Length", fmt.Sprintf("%d", len(payload)))
 
 	client := &http.Client{
 		Timeout: senderConfig.Timeout,
 	}
-	_, err = client.Do(req)
-	return err
+	resp, err := client.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	return nil
 }
