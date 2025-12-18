@@ -4,6 +4,7 @@ package monitor
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"time"
 )
@@ -19,11 +20,15 @@ func SetSender(config SenderConfig) {
 	senderConfig = config
 }
 
-func Send(snapshot Snapshot) error {
+func Send(snapshot *Snapshot) error {
 	payload, err := json.Marshal(snapshot)
 	if err != nil {
 		return err
 	}
+
+	// DEBUG: mostrar payload antes do envio
+	fmt.Println("📤 Enviando payload:")
+	fmt.Println(string(payload))
 
 	req, err := http.NewRequest("POST", senderConfig.URL, bytes.NewBuffer(payload))
 	if err != nil {

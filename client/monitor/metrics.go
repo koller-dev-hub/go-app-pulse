@@ -27,13 +27,13 @@ func Init(cfg Config) {
 	config = cfg
 }
 
-func Capture(custom map[string]int64) Snapshot {
+func Capture(custom map[string]int64) *Snapshot {
 	var m runtime.MemStats
 	runtime.ReadMemStats(&m)
 
 	hostname, _ := os.Hostname()
 
-	return Snapshot{
+	return &Snapshot{
 		AppName:     config.Appname,
 		Environment: config.Environment,
 		Hostname:    hostname,
