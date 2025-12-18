@@ -30,7 +30,7 @@ func Send(snapshot *Snapshot) error {
 	fmt.Println("📤 Enviando payload:")
 	fmt.Println(string(payload))
 
-	req, err := http.NewRequest("GET", senderConfig.URL, bytes.NewReader(payload))
+	req, err := http.NewRequest("POST", senderConfig.URL, bytes.NewReader(payload))
 	if err != nil {
 		return err
 	}
