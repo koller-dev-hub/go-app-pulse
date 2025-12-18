@@ -26,10 +26,6 @@ func Send(snapshot *Snapshot) error {
 		return err
 	}
 
-	// DEBUG: mostrar payload antes do envio
-	fmt.Println("📤 Enviando payload:")
-	fmt.Println(string(payload))
-
 	req, err := http.NewRequest("POST", senderConfig.URL, bytes.NewReader(payload))
 	if err != nil {
 		return err
